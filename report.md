@@ -58,4 +58,3 @@ The program is capable of correctly detecting basic geometric shapes in a given 
 
 It’s important to note that the parameters (such as Gaussian blur and epsilon value) must be adjusted according to the specific image. Manual adjustments are needed for each different image to achieve the best results.
 
-``
