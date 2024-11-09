@@ -2,6 +2,7 @@ from shape_recognition.src.shapes.shape import Shape
 import cv2
 import numpy as np
 
+epsilon = 0.04
 
 class Square(Shape):
     def __init__(self, contour: np.ndarray):
@@ -19,7 +20,7 @@ class Square(Shape):
         Returns:
             bool: True if the shape is a square, False otherwise.
         """
-        approx = cv2.approxPolyDP(self.contour, 0.04 * cv2.arcLength(self.contour, True), True)
+        approx = cv2.approxPolyDP(self.contour, epsilon * cv2.arcLength(self.contour, True), True)
         if len(approx) == 4:  # Square has 4 sides
             x, y, w, h = cv2.boundingRect(approx)
             aspect_ratio = float(w) / h

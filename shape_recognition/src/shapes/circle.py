@@ -3,6 +3,7 @@ import cv2
 import math
 import numpy as np
 
+epsilon = 0.04
 
 class Circle(Shape):
     def __init__(self, contour: np.ndarray):
@@ -20,7 +21,7 @@ class Circle(Shape):
             bool: True if the shape is a circle, False otherwise.
         """
         # Approximate the contour to simplify its shape
-        approx = cv2.approxPolyDP(self.contour, 0.04 * cv2.arcLength(self.contour, True), True)
+        approx = cv2.approxPolyDP(self.contour, epsilon * cv2.arcLength(self.contour, True), True)
         # Check if the contour has exactly 6 vertices
         if len(approx) > 6:
             self.find_radius()

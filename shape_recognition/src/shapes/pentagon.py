@@ -3,6 +3,7 @@ import cv2
 import math
 import numpy as np
 
+epsilon = 0.03
 
 class Pentagon(Shape):
     def __init__(self, contour: np.ndarray):
@@ -19,7 +20,7 @@ class Pentagon(Shape):
             bool: True if the shape is a pentagon, False otherwise.
         """
         # Approximate the contour with a polygon
-        approx = cv2.approxPolyDP(self.contour, 0.03 * cv2.arcLength(self.contour, True), True)
+        approx = cv2.approxPolyDP(self.contour, epsilon * cv2.arcLength(self.contour, True), True)
         if len(approx) == 5:
             return True
         return False

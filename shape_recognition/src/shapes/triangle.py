@@ -3,6 +3,7 @@ import cv2
 import math
 import numpy as np
 
+epsilon = 0.04
 
 class Triangle(Shape):
     def __init__(self, contour: np.ndarray):
@@ -21,7 +22,7 @@ class Triangle(Shape):
             bool: True if the shape is a triangle, False otherwise.
         """
         # check if there is 3 edges
-        approx = cv2.approxPolyDP(self.contour, 0.04 * cv2.arcLength(self.contour, True), True)
+        approx = cv2.approxPolyDP(self.contour, epsilon * cv2.arcLength(self.contour, True), True)
         if len(approx) == 3:
             return True
         return False

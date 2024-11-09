@@ -3,6 +3,7 @@ import cv2
 import math
 import numpy as np
 
+epsilon = 0.04
 
 class Hexagon(Shape):
     def __init__(self, contour: np.ndarray):
@@ -21,7 +22,7 @@ class Hexagon(Shape):
             bool: True if the shape is a hexagon, False otherwise.
         """
         # Approximate the contour to simplify its shape
-        approx = cv2.approxPolyDP(self.contour, 0.04 * cv2.arcLength(self.contour, True), True)
+        approx = cv2.approxPolyDP(self.contour, epsilon * cv2.arcLength(self.contour, True), True)
         # Check if the contour has exactly 6 vertices
         if len(approx) == 6:
             return abs(self.contour_shapes() - cv2.contourArea(self.contour))/cv2.contourArea(self.contour) < 0.1
