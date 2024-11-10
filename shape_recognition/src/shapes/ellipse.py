@@ -24,6 +24,7 @@ class Ellipse(Shape):
         approx = cv2.approxPolyDP(self.contour, epsilon * cv2.arcLength(self.contour, True), True)
         # Check if the contour has more than 6 vertices
         if len(approx) > 6:
+            # compare actual area of contour to the area of fitted ellipse if error rate below %10 return true
             return abs(self.contour_shapes() - cv2.contourArea(self.contour))/cv2.contourArea(self.contour) < 0.1
 
         return False
