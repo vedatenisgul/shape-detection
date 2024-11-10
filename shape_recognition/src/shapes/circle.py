@@ -22,7 +22,7 @@ class Circle(Shape):
         """
         # Approximate the contour to simplify its shape
         approx = cv2.approxPolyDP(self.contour, epsilon * cv2.arcLength(self.contour, True), True)
-        # Check if the contour has exactly 6 vertices
+        # Check if the contour has more than 6 vertices
         if len(approx) > 6:
             self.find_radius()
             # Compute the area of the contour
