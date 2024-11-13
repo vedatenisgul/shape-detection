@@ -5,7 +5,7 @@ import numpy as np
 
 
 class Shape(ABC):
-    # methods will be defined in subclasses
+    # abstract methods will be defined in subclasses
     def __init__(self, contour: np.ndarray):
         self.contour = contour
         self.c_x = 0
