@@ -15,10 +15,12 @@ detected_centers = []
 def detect_shapes(img: cv2.Mat) -> list:
     # RGB values are multiplied by some values and converted to only one value for each pixel(grayscale)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
     # Gaussian Blur to smooth the image.
     # Each pixel's value is adjusted based on the weighted average of its neighbors
     # using a Gaussian kernel, which reduces noise and detail.
     blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+    
     # Edge Detection
     # Pixels with gradient values above 80 are considered edges,
     # while those below 30 are discarded. Values between 30 and 80 are
@@ -26,17 +28,21 @@ def detect_shapes(img: cv2.Mat) -> list:
     edges = cv2.Canny(blurred, 30, 80)
 
     # show the result of these steps
+    # this step for facilitating finding suitable parameters for given image to detect shapes
     gray_resized = cv2.resize(gray, (img.shape[1], img.shape[0]))
     blurred_resized = cv2.resize(blurred, (img.shape[1], img.shape[0]))
     edges_resized = cv2.resize(edges, (img.shape[1], img.shape[0]))
     combined_image = cv2.hconcat([gray_resized, blurred_resized, edges_resized])
     cv2.imshow("Combined Output", combined_image)
+    
     # Find contours in the edge-detected image.
     # RETR_TREE retrieves all contours and organizes them into a hierarchical tree structure.
     # CHAIN_APPROX_SIMPLE compresses horizontal, vertical, and diagonal segments to save memory.
     contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    
     # list for storing names of shapes
     shapes = []
+    
     for contour in contours:
         # check for contours with area over 1000 to prevent unnecessary detections
         if cv2.contourArea(contour) > 1000:
@@ -47,12 +53,22 @@ def detect_shapes(img: cv2.Mat) -> list:
             for shape in shape_list:
                 # check whether we can identify shape or not
                 detected_shape = shape.detect_shapes()
+                
                 if detected_shape:
+                    # by checking if new shape's center is too close to existing detected shapes center
+                    # trying to prevent false detection of already detected shape 
                     c_x, c_y = shape.find_center()
+                    
                     if compare_centers(c_x, c_y, detected_centers, 20):
+                        # append new shapes x and y coordinates 
                         detected_centers.append((c_x, c_y))
+
+                        # call method of shape to draw contours and print shape info into image
                         shape.print_shape_info(img)
+
+                        # print detected shapes name and contour area to terminal
                         print(f"Detected shape: {type(shape).__name__}, {shape.contour_shapes()}")
+                        
                         shapes.append(shape)
                     break
 
