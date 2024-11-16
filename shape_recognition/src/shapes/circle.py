@@ -28,8 +28,7 @@ class Circle(Shape):
             # Compute the area of the contour
             contour_area = cv2.contourArea(self.contour)
             # Compute the area of the enclosing circle
-            circle_area = math.pi * (self.radius ** 2)
-
+            circle_area = self.contour_shapes()
             # Check if the contour area and circle area are similar
             # 15% tolerance
             return abs(contour_area - circle_area) / circle_area < 0.15
