@@ -2,7 +2,6 @@ from shape_recognition.src.shapes.shape import Shape
 import cv2
 import numpy as np
 import math
-import numpy as np
 
 epsilon = 0.02
 
